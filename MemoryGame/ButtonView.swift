@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ButtonView: View {
-    var imageName = ""
-    var text = ""
+    var imageName = "smiley"
+    var text = "test"
     var ownNumber = 0
     var ownColor = Color.blue
     
@@ -21,8 +21,11 @@ struct ButtonView: View {
                 themeNumber = ownNumber
                 themeColor = ownColor
             }, label: {
-                Image(systemName: "smiley")
-                Text(imageName)
+                VStack{
+                    Image(systemName: imageName)
+                    Text(text)
+                }
+                
             })
             
         }

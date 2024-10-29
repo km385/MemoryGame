@@ -9,11 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     var contentTab = ["🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨"]
+    var contentTab2 = ["🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨"]
+    var contentTab3 = ["🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨"]
     @State var numberOfCards: Int = 6
     @State var isButtonDisabled1 = false
     @State var isButtonDisabled2 = false
-    @State var color:Color = .blue
-    @State var buttonNumber: Int = 4
+    
+    
+    @State var themeColor:Color = .blue
+    @State var themeNumber: Int = 2
+    
+    
     func adjustCardNumber(by offset: Int, symbol: String) -> some View {
         let newCount = numberOfCards + offset
         if newCount < 2 {
@@ -29,7 +35,18 @@ struct ContentView: View {
     }
     
     var buttonDisplay: some View {
-        return ButtonView(themeColor: $color, themeNumber: $buttonNumber)
+        return ButtonView(themeColor: $themeColor, themeNumber: $themeNumber)
+    }
+    
+    func changeTheme() -> (Array<String>, Int) {
+        if(themeNumber == 1) {
+            return (contentTab.shuffled(), contentTab.count)
+        } else if (themeNumber == 2) {
+            return (contentTab2.shuffled(), contentTab2.count)
+        } else {
+            return (contentTab3.shuffled(), contentTab3.count)
+        }
+        
     }
     
     var cardDisplay: some View {
@@ -38,7 +55,7 @@ struct ContentView: View {
             return ScrollView {
                 LazyVGrid(columns: columns, spacing: 20) {
                     ForEach(0..<numberOfCards, id: \.self) { index in
-                        CardView(state: true, emoji: contentTab[index])
+                        CardView(state: true, emoji: contentTab[index], fillColor: themeColor)
                             .foregroundColor(.blue)
                             .aspectRatio(2/3, contentMode: .fit)
                     }
@@ -54,7 +71,8 @@ struct ContentView: View {
             cardDisplay
             Spacer()
             HStack{
-                buttonDisplay
+                ButtonView(ownColor: .red, themeColor: $themeColor, themeNumber: $themeNumber)
+                    
                 Spacer()
                 buttonDisplay
                 Spacer()
