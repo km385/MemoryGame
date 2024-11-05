@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    var contentTab = ["🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨"]
-    var contentTab2 = ["🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨"]
-    var contentTab3 = ["🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨","🐶", "🐱", "🐼", "🐨"]
-    @State var numberOfCards: Int = 6
+    var contentTab = ["🐶", "🐱", "🐼", "🐨", "🦊", "🐯", "🦁", "🐸"]
+    var contentTab2 = ["🍎", "🍕", "🌮", "🍦", "🍪", "🥨"]
+    var contentTab3 = ["☀️", "🌙", "⭐️", "🌈"]
+    
     @State var isButtonDisabled1 = false
     @State var isButtonDisabled2 = false
     
-    
+    @State var numberOfCards: Int = 8
     @State var themeColor:Color = .blue
     @State var themeNumber: Int = 2
     
@@ -35,7 +35,14 @@ struct ContentView: View {
     }
     
     var buttonDisplay: some View {
-        return ButtonView(themeColor: $themeColor, themeNumber: $themeNumber)
+        return HStack {
+            ButtonView(ownColor: .green, themeColor: $themeColor, themeNumber: $themeNumber)
+            Spacer()
+            ButtonView(ownColor: .red,themeColor: $themeColor, themeNumber: $themeNumber)
+            Spacer()
+            ButtonView(ownColor: .blue,themeColor: $themeColor, themeNumber: $themeNumber)
+        }
+         
     }
     
     func changeTheme() -> (Array<String>, Int) {
@@ -70,14 +77,9 @@ struct ContentView: View {
             Text("Memo").font(.largeTitle)
             cardDisplay
             Spacer()
-            HStack{
-                ButtonView(ownColor: .red, themeColor: $themeColor, themeNumber: $themeNumber)
-                    
-                Spacer()
-                buttonDisplay
-                Spacer()
-                buttonDisplay
-            }
+            buttonDisplay
+               
+            
             
 //            HStack {
 //                Button(action: {

@@ -23,8 +23,9 @@ struct ButtonView: View {
             }, label: {
                 VStack{
                     Image(systemName: imageName)
+                        
                     Text(text)
-                }
+                }.foregroundColor(ownColor)
                 
             })
             
