@@ -10,12 +10,6 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var viewModel: MemoGameViewModel
     
-    @State var isButtonDisabled1 = false
-    @State var isButtonDisabled2 = false
-    
-    @State var numberOfCards: Int = 8
-    @State var themeColor:Color = .blue
-    @State var themeNumber: Int = 2
     
     
 //    func adjustCardNumber(by offset: Int, symbol: String) -> some View {
@@ -55,12 +49,11 @@ struct ContentView: View {
                 LazyVGrid(columns: columns, spacing: 20) {
                     // main card
                     CardView(card: viewModel.mainCard, color: viewModel.themeColor)
-                        .aspectRatio(2/3, contentMode: .fit)
                     Spacer()
                     // the rest
                     ForEach(viewModel.cards) { card in
                         CardView(card: card, color: viewModel.themeColor)
-                            .aspectRatio(2/3, contentMode: .fit)
+                            
                     }
                 }
                 .padding()

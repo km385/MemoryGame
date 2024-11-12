@@ -10,6 +10,7 @@ import SwiftUI
 struct CardView: View {
     var card: MemoGameModel<String>.Card
     var color: Color = .blue
+    
     var body: some View {
         Group {
             ZStack {
@@ -20,7 +21,9 @@ struct CardView: View {
                 
                 Text(card.content)
                     .opacity(1)
-                    .font(.largeTitle)
+                    .font(Font.largeTitle)
+                    .aspectRatio(2/3, contentMode: .fit)
+                    .minimumScaleFactor(0.01)
             }
             
             
