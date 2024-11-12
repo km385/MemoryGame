@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    var contentTab = ["🐶", "🐱", "🐼", "🐨", "🦊", "🐯", "🦁", "🐸"]
-    var contentTab2 = ["🍎", "🍕", "🌮", "🍦", "🍪", "🥨"]
-    var contentTab3 = ["☀️", "🌙", "⭐️", "🌈"]
+    @ObservedObject var viewModel: MemoGameViewModel
     
     @State var isButtonDisabled1 = false
     @State var isButtonDisabled2 = false
@@ -20,50 +18,48 @@ struct ContentView: View {
     @State var themeNumber: Int = 2
     
     
-    func adjustCardNumber(by offset: Int, symbol: String) -> some View {
-        let newCount = numberOfCards + offset
-        if newCount < 2 {
-            isButtonDisabled2 = true
-        } else if newCount > contentTab.count {
-            isButtonDisabled1 = true
-        } else {
-            numberOfCards = newCount
-            isButtonDisabled1 = false
-            isButtonDisabled2 = false
-        }
-        return EmptyView()
-    }
+//    func adjustCardNumber(by offset: Int, symbol: String) -> some View {
+//        let newCount = numberOfCards + offset
+//        if newCount < 2 {
+//            isButtonDisabled2 = true
+//        } else if newCount > contentTab.count {
+//            isButtonDisabled1 = true
+//        } else {
+//            numberOfCards = newCount
+//            isButtonDisabled1 = false
+//            isButtonDisabled2 = false
+//        }
+//        return EmptyView()
+//    }
     
     var buttonDisplay: some View {
         return HStack {
-            ButtonView(ownColor: .green, themeColor: $themeColor, themeNumber: $themeNumber)
+            ButtonView(viewModel: viewModel, ownColor: .orange)
             Spacer()
-            ButtonView(ownColor: .red,themeColor: $themeColor, themeNumber: $themeNumber)
+            ButtonView(viewModel: viewModel, ownColor: .blue)
             Spacer()
-            ButtonView(ownColor: .blue,themeColor: $themeColor, themeNumber: $themeNumber)
+            ButtonView(viewModel: viewModel, ownColor: .red)
         }
          
     }
     
-    func changeTheme() -> (Array<String>, Int) {
-        if(themeNumber == 1) {
-            return (contentTab.shuffled(), contentTab.count)
-        } else if (themeNumber == 2) {
-            return (contentTab2.shuffled(), contentTab2.count)
-        } else {
-            return (contentTab3.shuffled(), contentTab3.count)
-        }
-        
-    }
+//    func chooseCard(cardId: v) {
+//        
+//    }
+    
     
     var cardDisplay: some View {
             let columns = [GridItem(.adaptive(minimum: 120))]
 
             return ScrollView {
                 LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(0..<numberOfCards, id: \.self) { index in
-                        CardView(state: true, emoji: contentTab[index], fillColor: themeColor)
-                            .foregroundColor(.blue)
+                    // main card
+                    CardView(card: viewModel.mainCard, color: viewModel.themeColor)
+                        .aspectRatio(2/3, contentMode: .fit)
+                    Spacer()
+                    // the rest
+                    ForEach(viewModel.cards) { card in
+                        CardView(card: card, color: viewModel.themeColor)
                             .aspectRatio(2/3, contentMode: .fit)
                     }
                 }
@@ -78,24 +74,7 @@ struct ContentView: View {
             cardDisplay
             Spacer()
             buttonDisplay
-               
             
-            
-//            HStack {
-//                Button(action: {
-//                    adjustCardNumber(by: 2, symbol: "")
-//                }) {
-//                    Text("+")
-//                }
-//                .disabled(isButtonDisabled1)
-//                Spacer()
-//                Button(action: {
-//                    adjustCardNumber(by: -2, symbol: "")
-//                }) {
-//                    Text("-")
-//                }
-//                .disabled(isButtonDisabled2)
-//            }
             
         }
         .padding()
@@ -105,5 +84,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(viewModel: MemoGameViewModel())
 }

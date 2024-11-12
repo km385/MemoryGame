@@ -8,22 +8,19 @@
 import SwiftUI
 
 struct ButtonView: View {
+    @ObservedObject var viewModel: MemoGameViewModel
     var imageName = "smiley"
     var text = "test"
     var ownNumber = 0
     var ownColor = Color.blue
     
-    @Binding var themeColor: Color
-    @Binding var themeNumber: Int
     var body: some View {
         VStack{
             Button(action: {
-                themeNumber = ownNumber
-                themeColor = ownColor
+                viewModel.chooseTheme(color: ownColor)
             }, label: {
                 VStack{
                     Image(systemName: imageName)
-                        
                     Text(text)
                 }.foregroundColor(ownColor)
                 

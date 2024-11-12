@@ -8,22 +8,29 @@
 import Foundation
 
 struct MemoGameModel<CardContent> where CardContent : Equatable {
-    private var cards: Array<Card>
-    private var mainCard: Card? = nil
+    private(set) var cards: Array<Card>
+    private(set) var mainCard: Card? = nil
+    private(set) var score = 0
     
     init(numberOfCards: Int, cardContentFactory: (Int)-> CardContent) {
         cards = []
         let mainCardNumber = Int.random(in: 0..<numberOfCards)
-        for index in 0..<numberOfCards {
-            let content: CardContent = cardContentFactory(index)
-            cards.append(Card(content: content, id: "\(index)a"))
-            if(mainCardNumber == index) {
-                self.mainCard = Card(content: content, id: "\(index)b")
+        
+            
+        for pairIndex in 0..<numberOfCards {
+            let content = cardContentFactory(pairIndex)
+            cards.append(Card(content: content, id: "\(UUID())_a"))
+//            cards.append(Card(content: content, id: "\(UUID())_b"))
+            if(mainCardNumber == pairIndex) {
+                mainCard = Card(content: content, id: "\(UUID())_b")
             }
         }
+        cards.shuffle()
+        
     }
     
-    func choose(_ card: Card) {
+    
+    mutating func choose(_ card: Card) {
         
     }
     
@@ -33,9 +40,9 @@ struct MemoGameModel<CardContent> where CardContent : Equatable {
  
     struct Card: Equatable, Identifiable {
         var isFaceUp: Bool = true
-        var isMached: Bool = false
+        var isMatched: Bool = false
         let content: CardContent
         var id: String
-        
+        var hasBeenSeen = false
     }
 }

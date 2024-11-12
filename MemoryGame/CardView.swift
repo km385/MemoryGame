@@ -8,36 +8,23 @@
 import SwiftUI
 
 struct CardView: View {
-    @State var state: Bool
-    var emoji: String = "🐶"
-    @State var opacity: Double = 1
-    @State var fillColor: Color = .white
+    var card: MemoGameModel<String>.Card
+    var color: Color = .blue
     var body: some View {
         Group {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.blue, lineWidth: 2)
-                    .fill(fillColor)
+                    .stroke(color, lineWidth: 2)
                     .font(.largeTitle)
                     .frame(width: 150,height: 150)
                 
-                Text(emoji)
-                    .opacity(opacity)
+                Text(card.content)
+                    .opacity(1)
                     .font(.largeTitle)
             }
             
             
             
-        }
-        .onTapGesture {
-            if state {
-                opacity = 1
-                fillColor = .white
-            } else {
-                opacity = 0
-                fillColor = .blue
-            }
-            state = !state
         }
         
             
@@ -46,5 +33,5 @@ struct CardView: View {
 }
 
 #Preview {
-    CardView(state: true, emoji: "emojiTest")
+    CardView(card: MemoGameModel<String>.Card(isFaceUp: true, isMatched: false, content: "1", id: "2"))
 }
