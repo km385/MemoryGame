@@ -23,15 +23,57 @@ struct MemoGameModel<CardContent> where CardContent : Equatable {
 //            cards.append(Card(content: content, id: "\(UUID())_b"))
             if(mainCardNumber == pairIndex) {
                 mainCard = Card(content: content, id: "\(UUID())_b")
+                mainCard?.isFaceUp = true
             }
         }
         cards.shuffle()
         
     }
+
+    private func indexOfFaceUp(card: Card) -> Int?{
+        for index in cards.indices {
+            if cards[index].isFaceUp {
+                if cards[index].id != card.id {
+                    return index
+                }
+            }
+        }
+        return nil
+    }
+    
+    private func index(of card: Card) -> Int? {
+        for index in cards.indices {
+            if(cards[index].id == card.id) {
+                return index
+            }
+        }
+        return nil
+    }
     
     
-    mutating func choose(_ card: Card) {
+    mutating func choose(card: Card) {
+        if let faceUpIndex = indexOfFaceUp(card: card) {
+            cards[faceUpIndex].isFaceUp = false
+        }
         
+        
+        if let cardIndex = index(of: card) {
+            cards[cardIndex].isFaceUp.toggle()
+            
+            
+            if cards[cardIndex].content == mainCard!.content {
+                cards[cardIndex].isMatched = true
+                for index in cards.indices {
+                    if !cards[index].isMatched {
+                        cards[index].visible = false
+                    }
+                }
+                
+            }
+            
+                   
+            
+        }
     }
     
     mutating func shuffle() {
@@ -41,6 +83,7 @@ struct MemoGameModel<CardContent> where CardContent : Equatable {
     struct Card: Equatable, Identifiable {
         var isFaceUp: Bool = true
         var isMatched: Bool = false
+        var visible: Bool = true
         let content: CardContent
         var id: String
         var hasBeenSeen = false

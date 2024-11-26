@@ -12,28 +12,24 @@ struct CardView: View {
     var color: Color = .blue
     
     var body: some View {
-        Group {
-            ZStack {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(color, lineWidth: 2)
-                    .font(.largeTitle)
-                    .frame(width: 150,height: 150)
-                
-                Text(card.content)
-                    .opacity(1)
-                    .font(Font.largeTitle)
-                    .aspectRatio(2/3, contentMode: .fit)
+        ZStack {
+            let base = RoundedRectangle(cornerRadius: 12)
+            Group {
+                base.fill(.white)
+                base.stroke(color, lineWidth: 2)
+                    
+                Text(card.content).font(.system(size: 200))
                     .minimumScaleFactor(0.01)
+                    .aspectRatio(contentMode: .fit)
             }
-            
-            
-            
-        }
-        
-            
+            .opacity(card.isFaceUp ? 1 : 0)
+            base.fill(color).opacity(card.isFaceUp ? 0 : 1)
+        }.opacity(card.visible ? 1:0)
         
     }
+
 }
+
 
 #Preview {
     CardView(card: MemoGameModel<String>.Card(isFaceUp: true, isMatched: false, content: "1", id: "2"))

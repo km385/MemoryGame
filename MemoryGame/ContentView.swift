@@ -42,23 +42,33 @@ struct ContentView: View {
 //    }
     
     
+    
     var cardDisplay: some View {
-            let columns = [GridItem(.adaptive(minimum: 120))]
+        
+        let topCardColumns = [GridItem(.flexible())]
+        let bottomCardColumns = [GridItem(.adaptive(minimum: 40))]
 
-            return ScrollView {
-                LazyVGrid(columns: columns, spacing: 20) {
-                    // main card
+        return ScrollView {
+            VStack(spacing: 20) {
+                LazyVGrid(columns: topCardColumns, spacing: 20) {
                     CardView(card: viewModel.mainCard, color: viewModel.themeColor)
-                    Spacer()
-                    // the rest
+                        
+                        
+                }
+
+                LazyVGrid(columns: bottomCardColumns, spacing: 20) {
                     ForEach(viewModel.cards) { card in
                         CardView(card: card, color: viewModel.themeColor)
-                            
+                            .onTapGesture {
+                                viewModel.choose(card: card)
+                                    
+                            }  
                     }
                 }
-                .padding()
             }
+            .padding()
         }
+    }
     
     
     var body: some View {

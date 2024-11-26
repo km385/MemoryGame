@@ -39,7 +39,7 @@ class MemoGameViewModel : ObservableObject {
         model.mainCard!
     }
     func choose(card: MemoGameModel<String>.Card) {
-        model.choose(card)
+        model.choose(card: card)
     }
     
     func chooseTheme(color: Color) {
