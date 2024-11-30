@@ -81,7 +81,7 @@ struct MemoGameModel<CardContent> where CardContent : Equatable {
     }
  
     struct Card: Equatable, Identifiable {
-        var isFaceUp: Bool = true
+        var isFaceUp: Bool = false
         var isMatched: Bool = false
         var visible: Bool = true
         let content: CardContent
