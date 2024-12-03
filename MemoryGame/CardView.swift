@@ -12,21 +12,45 @@ struct CardView: View {
     var color: Color = .blue
     
     var body: some View {
-        ZStack {
-            let base = RoundedRectangle(cornerRadius: 12)
-            Group {
-                base.fill(.white)
-                base.stroke(color, lineWidth: 2)
+        CirclePart(endAngle: .degrees(240))
+            .fill(color)
+            .overlay(
+                Text(card.content)
+                    .font(.system(size: 200))
                     
-                Text(card.content).font(.system(size: 200))
                     .minimumScaleFactor(0.01)
-                    .aspectRatio(contentMode: .fit)
-            }
-            .opacity(card.isFaceUp ? 1 : 0)
-            base.fill(color).opacity(card.isFaceUp ? 0 : 1)
-        }.opacity(card.visible ? 1:0)
+                    .multilineTextAlignment(.center)
+                    .padding(20)
+                    .aspectRatio(1, contentMode: .fit)
+                    .rotationEffect(.degrees(card.isMatched ? 360 : 0))
+//                    .animation(.spin(duration: 2), value: card.isMatched)
+            )
+            .padding(20)
+            .modifier(TransformIntoCard(isFaceUp: card.isFaceUp))
+            .opacity(card.visible ? 1 : 0)
+        
+        
         
     }
+    
+//    var body: some View {
+//        ZStack {
+//            let base = RoundedRectangle(cornerRadius: 12)
+//            Group {
+//                base.fill(.white)
+//                base.stroke(color, lineWidth: 2)
+//
+//                Text(card.content)
+//                    .font(.system(size: 200))
+//                    .minimumScaleFactor(0.01)
+//                    .aspectRatio(contentMode: .fit)
+//            }
+//            .opacity(card.isFaceUp ? 1 : 0)
+//            base.fill(color).opacity(card.isFaceUp ? 0 : 1)
+//        }
+//        .opacity(card.visible ? 1:0)
+//
+//    }
 
 }
 
