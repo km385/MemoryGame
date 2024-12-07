@@ -12,56 +12,52 @@ struct ContentView: View {
     @ObservedObject var viewModel: MemoGameViewModel
     
     
-    // cg rec ma frame i center
-    
-    
-    //add line
-    //add arc
-    // stroke/fill wypelniamy
-    
-    // protokol shake?
-    
-    
     var buttonDisplay: some View {
         return HStack {
-            ButtonView(viewModel: viewModel, ownColor: .orange)
+            ButtonView(viewModel: viewModel, text: "faces", ownColor: .orange)
+                
             Spacer()
-            ButtonView(viewModel: viewModel, ownColor: .blue)
+            
+            ButtonView(viewModel: viewModel,imageName: "pawprint.fill", text: "animals", ownColor: .blue)
             Spacer()
-            ButtonView(viewModel: viewModel, ownColor: .red)
+            
+            ButtonView(viewModel: viewModel, text: "other", ownColor: .red)
         }
         
     }
     
-    //    func chooseCard(cardId: v) {
-    //
-    //    }
     
+    var mainCard: some View {
+        CardView(card: viewModel.mainCard, color: viewModel.themeColor)
+            .aspectRatio(contentMode: .fit)
+            .frame( height: 400)
+    }
     
-    
+    var cards: some View {
+        ForEach(viewModel.cards) { card in
+            CardView(card: card, color: viewModel.themeColor)
+                .aspectRatio(contentMode: .fit)
+                .onTapGesture {
+                    viewModel.choose(card: card)
+                }
+            
+            
+            
+        }
+    }
+  
     var cardDisplay: some View {
         
-        let topCardColumns = [GridItem(.flexible())]
-        let bottomCardColumns = [GridItem(.adaptive(minimum: 50))]
+//        let topCardColumns = [GridItem(.flexible())]
+        let bottomCardColumns = [GridItem(.adaptive(minimum: 120))]
         
         return ScrollView {
             VStack(spacing: 20) {
-                LazyVGrid(columns: topCardColumns, spacing: 20) {
-                    CardView(card: viewModel.mainCard, color: viewModel.themeColor)
+
+                mainCard
                     
-                    
-                }
-                
                 LazyVGrid(columns: bottomCardColumns, spacing: 20) {
-                    ForEach(viewModel.cards) { card in
-                        CardView(card: card, color: viewModel.themeColor)
-                            .onTapGesture {
-                                viewModel.choose(card: card)
-                            }
-                        
-                        
-                        
-                    }
+                    cards
                 }
             }
             .padding()
