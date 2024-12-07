@@ -52,17 +52,19 @@ struct MemoGameModel<CardContent> where CardContent : Equatable {
     
     
     mutating func choose(card: Card) {
+        // set the previously clicked card as face down
         if let faceUpIndex = indexOfFaceUp(card: card) {
             cards[faceUpIndex].isFaceUp = false
         }
         
-        
+        // set the new card as faceup and match to card if identicle
         if let cardIndex = index(of: card) {
-            cards[cardIndex].isFaceUp.toggle()
+            cards[cardIndex].isFaceUp = true
             
             
             if cards[cardIndex].content == mainCard!.content {
                 cards[cardIndex].isMatched = true
+                mainCard?.isMatched = true
                 for index in cards.indices {
                     if !cards[index].isMatched {
                         cards[index].visible = false
