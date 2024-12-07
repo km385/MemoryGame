@@ -23,7 +23,7 @@ struct CardView: View {
                     .padding(20)
                     .aspectRatio(1, contentMode: .fit)
                     .rotationEffect(.degrees(card.isMatched ? 360 : 0))
-                    .animation(.spin(duration: 2), value: card.isMatched)
+                    .animation(card.isMatched ? .spin(duration: 2) : .default(), value: card.isMatched)
             )
             .padding(20)
             .modifier(TransformIntoCard(isFaceUp: card.isFaceUp, color: color))
