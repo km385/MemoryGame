@@ -15,25 +15,23 @@ struct ButtonView: View {
     var ownColor = Color.blue
     
     var body: some View {
-        VStack{
-            Button(action: {
-                viewModel.chooseTheme(color: ownColor)
-            }, label: {
-                VStack{
-                    Image(systemName: imageName)
-                    Text(text)
-                }.foregroundColor(ownColor)
+        Button(action: {
+            viewModel.chooseTheme(color: ownColor)
+        }, label: {
+            VStack{
+                Image(systemName: imageName)
+                    .font(.largeTitle)
+                Text(text)
+                    .font(.largeTitle)
+            }
+            .foregroundColor(ownColor)
                 
-            })
             
-        }
-        
-        
-//        scribble.variable
-//        pawprint.circle
+        })
+       
     }
 }
 
-//#Preview {
-//    ButtonView(themeColor: , themeNumber: )
-//}
+#Preview {
+    ButtonView(viewModel: MemoGameViewModel())
+}
