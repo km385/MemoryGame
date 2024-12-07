@@ -16,17 +16,17 @@ struct CardView: View {
             .fill(color)
             .overlay(
                 Text(card.content)
-                    .font(.system(size: 200))
+                    .font(.system(size: 100))
                     
                     .minimumScaleFactor(0.01)
                     .multilineTextAlignment(.center)
                     .padding(20)
                     .aspectRatio(1, contentMode: .fit)
                     .rotationEffect(.degrees(card.isMatched ? 360 : 0))
-//                    .animation(.spin(duration: 2), value: card.isMatched)
+                    .animation(.spin(duration: 2), value: card.isMatched)
             )
             .padding(20)
-            .modifier(TransformIntoCard(isFaceUp: card.isFaceUp))
+            .modifier(TransformIntoCard(isFaceUp: card.isFaceUp, color: color))
             .opacity(card.visible ? 1 : 0)
         
         
